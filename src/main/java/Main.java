@@ -24,10 +24,21 @@ public class Main {
       BufferedReader reader = new BufferedReader(new InputStreamReader(input));
       String line = reader.readLine();
       System.out.println(line);
-      String[] httpRequest = line.split(" ", 0);
+      String[] httpRequest = line.split(" ");
+
+      for (int i = 0; i < httpRequest.length; i++) {
+        System.out.println("At index " + i + ": " + httpRequest[i]);
+      }
+
       OutputStream output = clientSocket.getOutputStream();
       if (httpRequest[1].equals("/")) {
         output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+      } else if (httpRequest[1].startsWith("/echo/")) {
+        String reqMsg = httpRequest[1].substring(6);
+        String header = String.format(
+                "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s",
+                reqMsg.length(), reqMsg);
+        clientSocket.getOutputStream().write(header.getBytes());
       } else {
         output.write("HTTP/1.1 404 Not Found\r\n\r\n".getBytes());
       }
