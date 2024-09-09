@@ -13,7 +13,7 @@ public class Main {
       serverSocket = new ServerSocket(4221);
       serverSocket.setReuseAddress(true);
       while (true) {
-        new httpserver(serverSocket.accept());
+        new HttpServer(serverSocket.accept());
       }
 
       // Since the tester restarts your program quite often, setting SO_REUSEADDR
