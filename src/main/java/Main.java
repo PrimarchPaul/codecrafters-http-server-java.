@@ -26,9 +26,7 @@ public class Main {
       System.out.println(line);
       String[] httpRequest = line.split(" ");
 
-      for (int i = 0; i < httpRequest.length; i++) {
-        System.out.println("At index " + i + ": " + httpRequest[i]);
-      }
+
 
       OutputStream output = clientSocket.getOutputStream();
       if (httpRequest[1].equals("/")) {
@@ -39,7 +37,18 @@ public class Main {
                 "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s",
                 reqMsg.length(), reqMsg);
         clientSocket.getOutputStream().write(header.getBytes());
-      } else {
+      }else if (httpRequest[1].startsWith("/user-agent")) {
+        String userAgent = null;
+        while ((line = reader.readLine()) != null && !line.isEmpty()) {
+          if (line.startsWith("User-Agent:")) {
+            userAgent = line.substring("User-Agent:".length()).trim();
+          }
+        }
+        String header = String.format(
+                "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s",
+                userAgent.length(), userAgent);
+        clientSocket.getOutputStream().write(header.getBytes());
+      }else {
         output.write("HTTP/1.1 404 Not Found\r\n\r\n".getBytes());
       }
 
