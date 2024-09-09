@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import httpServer.*;
+import com.sun.net.httpserver.*;
 
 public class Main {
   static ServerSocket serverSocket;
