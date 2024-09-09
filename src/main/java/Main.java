@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import com.sun.net.httpserver.*;
+import HTTPServer.HTTPServer;
 
 public class Main {
   static ServerSocket serverSocket;
@@ -13,7 +13,7 @@ public class Main {
       serverSocket = new ServerSocket(4221);
       serverSocket.setReuseAddress(true);
       while (true) {
-        new HttpServer(serverSocket.accept());
+        new HTTPServer(serverSocket.accept());
       }
 
       // Since the tester restarts your program quite often, setting SO_REUSEADDR
